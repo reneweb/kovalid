@@ -26,4 +26,12 @@ public class ValidationResult<T> {
   public Optional<String> getMessage() {
     return message;
   }
+
+  public void throwIfFailed() {
+    if (message.isPresent()) {
+      throw new ValidationException(message.get());
+    } else {
+      throw new ValidationException();
+    }
+  }
 }
