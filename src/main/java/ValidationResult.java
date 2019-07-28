@@ -17,12 +17,12 @@ public class ValidationResult<T> {
     this.subValidationResults = subValidationResults;
   }
 
-  public static <T> ValidationResult<T> of(final T value, final boolean valid) {
-    return new ValidationResult<>(value, valid, Optional.empty(), new ArrayList<>());
+  public static <T> ValidationResult<T> success(final T value) {
+    return new ValidationResult<>(value, true, Optional.empty(), new ArrayList<>());
   }
 
-  public static <T> ValidationResult<T> of(final T value, final boolean valid, final String message) {
-    return new ValidationResult<>(value, valid, Optional.of(message), new ArrayList<>());
+  public static <T> ValidationResult<T> failure(final T value, final String message) {
+    return new ValidationResult<>(value, false, Optional.of(message), new ArrayList<>());
   }
 
   public interface ValidationResultFromBuilder<K> {
