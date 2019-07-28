@@ -1,5 +1,6 @@
 package com.github.reneweb;
 
+import com.github.reneweb.validators.CollectionValidators;
 import com.github.reneweb.validators.DoubleValidators;
 import com.github.reneweb.validators.FloatValidators;
 import com.github.reneweb.validators.IntValidators;
@@ -8,7 +9,8 @@ import com.github.reneweb.validators.ObjectValidators;
 import com.github.reneweb.validators.StringValidators;
 
 public interface Covalid<I, O> extends ObjectValidators, StringValidators, IntValidators,
-                                       LongValidators, DoubleValidators, FloatValidators {
+                                       LongValidators, DoubleValidators, FloatValidators,
+                                       CollectionValidators {
 
   ValidationResult<O> validate(I input);
 }
