@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class ValidationResult<T> {
   private final T value;
@@ -71,6 +72,24 @@ public class ValidationResult<T> {
 
       return new ValidationResult<>(values, this.valid && otherResult.valid, resolveMessage(otherResult), validationResults);
     }
+  }
+
+  public List<SubValidationResult> getSubValidationResults() {
+    return subValidationResults;
+  }
+
+  public List<SubValidationResult> getSuccessfulSubValidationResults() {
+    return subValidationResults
+        .stream()
+        .filter(SubValidationResult::isValid)
+        .collect(Collectors.toList());
+  }
+
+  public List<SubValidationResult> getFailedSubValidationResults() {
+    return subValidationResults
+        .stream()
+        .filter(subValidationResult -> !subValidationResult.isValid())
+        .collect(Collectors.toList());
   }
 
   public void throwIfFailed() {
