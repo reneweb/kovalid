@@ -27,7 +27,7 @@ public interface IntValidators {
       return ValidationResult.failure(value, invalidMessage);
     }
   }
-  
+
   default ValidationResult<Integer> isSmallerThan(Integer value, Integer other) {
     return isEqual(value, other, "Value '" + value + "' is not smaller than " + other);
   }
