@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -47,6 +48,10 @@ public class ValidationResult<T> {
       validationResults.add(otherResult);
       return new ValidationResult<>(null, this.result && otherResult.result, Optional.empty(), validationResults);
     }
+  }
+
+  public void addSubValidationResults(ValidationResult... validationResults) {
+    subValidationResults.addAll(Arrays.asList(validationResults));
   }
 
   public void throwIfFailed() {
