@@ -75,4 +75,16 @@ public interface StringValidators {
       return ValidationResult.failure(value, invalidMessage);
     }
   }
+
+  default ValidationResult<String> matchesRegex(String value, String regex) {
+    return equals(value, regex, "Value '" + value + "' does not match regex " + regex);
+  }
+
+  default ValidationResult<String> matchesRegex(String value, String regex, String invalidMessage) {
+    if (value.matches(regex)) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failure(value, invalidMessage);
+    }
+  }
 }
