@@ -25,6 +25,14 @@ public class ValidationResult<T> {
     return new ValidationResult<>(value, result, Optional.of(message), new ArrayList<>());
   }
 
+  public interface ValidationResultFromBuilder<K> {
+    ValidationResult<K> of(final K value, final boolean result, final String message);
+  }
+
+  public static <T> ValidationResultFromBuilder<T> from(ValidationResult<T> from) {
+    return (value, result, message) -> new ValidationResult<T>(value, result, Optional.of(message), from.subValidationResults);
+  }
+  
   public T getValue() {
     return value;
   }
