@@ -3,11 +3,11 @@ package com.github.reneweb.validators;
 import com.github.reneweb.ValidationResult;
 
 public interface ObjectValidators {
-  default ValidationResult<Object> isNotNull(Object value) {
+  default <T> ValidationResult<T> isNotNull(T value) {
     return isNotNull(value, "Value is null");
   }
 
-  default ValidationResult<Object> isNotNull(Object value, String invalidMessage) {
+  default <T> ValidationResult<T> isNotNull(T value, String invalidMessage) {
     if (value != null) {
       return ValidationResult.success(value);
     } else {
@@ -15,11 +15,11 @@ public interface ObjectValidators {
     }
   }
 
-  default ValidationResult<Object> isInstanceOf(Object value, Class c) {
+  default <T> ValidationResult<T> isInstanceOf(T value, Class c) {
     return isInstanceOf(value, c, "Value is not a instance of " + c);
   }
 
-  default ValidationResult<Object> isInstanceOf(Object value, Class c, String invalidMessage) {
+  default <T> ValidationResult<T> isInstanceOf(T value, Class c, String invalidMessage) {
     if (c.isInstance(value)) {
       return ValidationResult.success(value);
     } else {
