@@ -5,7 +5,7 @@ import com.github.reneweb.ValidationResult;
 public interface StringValidators {
 
   default ValidationResult<String> isNotNullOrEmpty(String value) {
-    return isNotNullOrEmpty(value, "Value is null or empty");
+    return isNotNullOrEmpty(value, "Value " + value + "  is null or empty");
   }
 
   default ValidationResult<String> isNotNullOrEmpty(String value, String invalidMessage) {
@@ -17,7 +17,7 @@ public interface StringValidators {
   }
 
   default ValidationResult<String> hasLength(String value, int length) {
-    return hasLength(value, length, "Value is smaller than " + length);
+    return hasLength(value, length, "Value " + value + "  is smaller than " + length);
   }
 
   default ValidationResult<String> hasLength(String value, int length, String invalidMessage) {
@@ -26,5 +26,21 @@ public interface StringValidators {
     } else {
       return ValidationResult.failure(value, invalidMessage);
     }
+  }
+
+  default ValidationResult<String> contains(String value, String contains) {
+    return contains(value, contains, "Value " + value + " does not contain " + contains);
+  }
+
+  default ValidationResult<String> contains(String value, String contains, String invalidMessage) {
+    if (value.contains(contains)) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failure(value, invalidMessage);
+    }
+  }
+
+  default ValidationResult<String> startsWith(String value, String start) {
+    return startsWith(value, start, "Value " + value + " does not start with " + start);
   }
 }
