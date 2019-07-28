@@ -1,4 +1,5 @@
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class ValidationResult<T> {
   private final T value;
@@ -33,5 +34,20 @@ public class ValidationResult<T> {
     } else {
       throw new ValidationException();
     }
+  }
+
+  public CompletableFuture<T> asCompletableFuture() {
+    CompletableFuture<T> future = new CompletableFuture<>();
+    if (result) {
+      future.complete(value);
+    } else {
+      if (message.isPresent()) {
+        future.completeExceptionally(new ValidationException(message.get()));
+      } else {
+        future.completeExceptionally(new ValidationException());
+      }
+    }
+
+    return future;
   }
 }
