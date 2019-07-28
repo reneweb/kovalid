@@ -10,9 +10,12 @@ public class ValidationResult<T> {
   private final T value;
   private final boolean valid;
   private final Optional<String> message;
-  private final List<ValidationResult> subValidationResults;
+  private final List<SubValidationResult> subValidationResults;
 
-  private ValidationResult(final T value, final boolean valid, final Optional<String> message, List<ValidationResult> subValidationResults) {
+  private ValidationResult(final T value,
+                           final boolean valid,
+                           final Optional<String> message,
+                           final List<SubValidationResult> subValidationResults) {
     this.value = value;
     this.valid = valid;
     this.message = message;
@@ -50,18 +53,18 @@ public class ValidationResult<T> {
 
   public <K> ValidationResult<Void> and(ValidationResult<K> otherResult) {
     if (subValidationResults.isEmpty()) {
-      List<ValidationResult> validationResults = new ArrayList<>();
-      validationResults.add(this);
-      validationResults.add(otherResult);
+      List<SubValidationResult> validationResults = new ArrayList<>();
+      validationResults.add(SubValidationResult.from(this));
+      validationResults.add(SubValidationResult.from(otherResult));
       return new ValidationResult<>(null, this.valid && otherResult.valid, Optional.empty(), validationResults);
     } else {
-      List<ValidationResult> validationResults = new ArrayList<>(this.subValidationResults);
-      validationResults.add(otherResult);
+      List<SubValidationResult> validationResults = new ArrayList<>(this.subValidationResults);
+      validationResults.add(SubValidationResult.from(otherResult));
       return new ValidationResult<>(null, this.valid && otherResult.valid, Optional.empty(), validationResults);
     }
   }
 
-  public void addSubValidationResults(ValidationResult... validationResults) {
+  public void addSubValidationResults(SubValidationResult... validationResults) {
     subValidationResults.addAll(Arrays.asList(validationResults));
   }
 
@@ -92,7 +95,7 @@ public class ValidationResult<T> {
     private T value;
     private boolean valid;
     private String message;
-    private List<ValidationResult> subValidationResults = new ArrayList<>();
+    private List<SubValidationResult> subValidationResults = new ArrayList<>();
 
     public <K> Builder<K> setValue(K value) {
       Builder<K> builder = new Builder<>();
@@ -113,7 +116,7 @@ public class ValidationResult<T> {
       return this;
     }
 
-    public Builder<T> setSubValidationResults(List<ValidationResult> subValidationResults) {
+    public Builder<T> setSubValidationResults(List<SubValidationResult> subValidationResults) {
       this.subValidationResults = subValidationResults;
       return this;
     }
