@@ -6,39 +6,39 @@ import java.util.concurrent.CompletableFuture;
 
 public class ValidationResult<T> {
   private final T value;
-  private final boolean result;
+  private final boolean valid;
   private final Optional<String> message;
   private final List<ValidationResult> subValidationResults;
 
-  private ValidationResult(final T value, final boolean result, final Optional<String> message, List<ValidationResult> subValidationResults) {
+  private ValidationResult(final T value, final boolean valid, final Optional<String> message, List<ValidationResult> subValidationResults) {
     this.value = value;
-    this.result = result;
+    this.valid = valid;
     this.message = message;
     this.subValidationResults = subValidationResults;
   }
 
-  public static <T> ValidationResult<T> of(final T value, final boolean result) {
-    return new ValidationResult<>(value, result, Optional.empty(), new ArrayList<>());
+  public static <T> ValidationResult<T> of(final T value, final boolean valid) {
+    return new ValidationResult<>(value, valid, Optional.empty(), new ArrayList<>());
   }
 
-  public static <T> ValidationResult<T> of(final T value, final boolean result, final String message) {
-    return new ValidationResult<>(value, result, Optional.of(message), new ArrayList<>());
+  public static <T> ValidationResult<T> of(final T value, final boolean valid, final String message) {
+    return new ValidationResult<>(value, valid, Optional.of(message), new ArrayList<>());
   }
 
   public interface ValidationResultFromBuilder<K> {
-    ValidationResult<K> of(final K value, final boolean result, final String message);
+    ValidationResult<K> of(final K value, final boolean valid, final String message);
   }
 
   public static <T> ValidationResultFromBuilder<T> from(ValidationResult<T> from) {
-    return (value, result, message) -> new ValidationResult<T>(value, result, Optional.of(message), from.subValidationResults);
+    return (value, valid, message) -> new ValidationResult<T>(value, valid, Optional.of(message), from.subValidationResults);
   }
-  
+
   public T getValue() {
     return value;
   }
 
-  public boolean getResult() {
-    return result;
+  public boolean isValid() {
+    return valid;
   }
 
   public Optional<String> getMessage() {
@@ -50,11 +50,11 @@ public class ValidationResult<T> {
       List<ValidationResult> validationResults = new ArrayList<>();
       validationResults.add(this);
       validationResults.add(otherResult);
-      return new ValidationResult<>(null, this.result && otherResult.result, Optional.empty(), validationResults);
+      return new ValidationResult<>(null, this.valid && otherResult.valid, Optional.empty(), validationResults);
     } else {
       List<ValidationResult> validationResults = new ArrayList<>(this.subValidationResults);
       validationResults.add(otherResult);
-      return new ValidationResult<>(null, this.result && otherResult.result, Optional.empty(), validationResults);
+      return new ValidationResult<>(null, this.valid && otherResult.valid, Optional.empty(), validationResults);
     }
   }
 
@@ -72,7 +72,7 @@ public class ValidationResult<T> {
 
   public CompletableFuture<T> asCompletableFuture() {
     CompletableFuture<T> future = new CompletableFuture<>();
-    if (result) {
+    if (valid) {
       future.complete(value);
     } else {
       if (message.isPresent()) {
