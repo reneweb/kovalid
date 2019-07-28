@@ -51,4 +51,16 @@ public interface StringValidators {
       return ValidationResult.failure(value, invalidMessage);
     }
   }
+  
+  default ValidationResult<String> endsWith(String value, String end) {
+    return startsWith(value, end, "Value " + value + " does not end with " + start);
+  }
+
+  default ValidationResult<String> endsWith(String value, String end, String invalidMessage) {
+    if (value.endsWith(end)) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failure(value, invalidMessage);
+    }
+  }
 }
