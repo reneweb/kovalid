@@ -26,11 +26,12 @@ public class ValidationResult<T> {
   }
 
   public static <T> Builder<T> from(ValidationResult<T> from) {
-    return new Builder<T>()
-        .setValue(from.value)
-        .setValid(from.valid)
-        .setMessage(from.message.orElse(null))
-        .setSubValidationResults(from.subValidationResults);
+    Builder<T> builder = new Builder<>();
+    builder.value = from.value;
+    builder.valid = from.valid;
+    builder.message = from.message.orElse(null);
+    builder.subValidationResults = from.subValidationResults;
+    return builder;
   }
 
   public T getValue() {
