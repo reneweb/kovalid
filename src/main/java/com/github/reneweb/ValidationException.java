@@ -1,3 +1,5 @@
+package com.github.reneweb;
+
 public class ValidationException extends RuntimeException {
   public ValidationException() {
     super();
