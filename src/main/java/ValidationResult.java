@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -5,19 +7,21 @@ public class ValidationResult<T> {
   private final T value;
   private final boolean result;
   private final Optional<String> message;
+  private final List<ValidationResult> subValidationResults;
 
-  private ValidationResult(final T value, final boolean result, final Optional<String> message) {
+  private ValidationResult(final T value, final boolean result, final Optional<String> message, List<ValidationResult> subValidationResults) {
     this.value = value;
     this.result = result;
     this.message = message;
+    this.subValidationResults = subValidationResults;
   }
 
   public static <T> ValidationResult<T> of(final T value, final boolean result) {
-    return new ValidationResult<>(value, result, Optional.empty());
+    return new ValidationResult<>(value, result, Optional.empty(), new ArrayList<>());
   }
 
   public static <T> ValidationResult<T> of(final T value, final boolean result, final String message) {
-    return new ValidationResult<>(value, result, Optional.of(message));
+    return new ValidationResult<>(value, result, Optional.of(message), new ArrayList<>());
   }
 
   public T getValue() {
@@ -30,6 +34,19 @@ public class ValidationResult<T> {
 
   public Optional<String> getMessage() {
     return message;
+  }
+
+  public <K> ValidationResult<Void> and(ValidationResult<K> otherResult) {
+    if (subValidationResults.isEmpty()) {
+      List<ValidationResult> validationResults = new ArrayList<>();
+      validationResults.add(this);
+      validationResults.add(otherResult);
+      return new ValidationResult<>(null, this.result && otherResult.result, Optional.empty(), validationResults);
+    } else {
+      List<ValidationResult> validationResults = new ArrayList<>(this.subValidationResults);
+      validationResults.add(otherResult);
+      return new ValidationResult<>(null, this.result && otherResult.result, Optional.empty(), validationResults);
+    }
   }
 
   public void throwIfFailed() {
