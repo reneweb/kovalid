@@ -15,4 +15,16 @@ public interface IntValidators {
       return ValidationResult.failure(value, invalidMessage);
     }
   }
+
+  default ValidationResult<Integer> isGreaterThan(Integer value, Integer other) {
+    return isEqual(value, other, "Value '" + value + "' is not greater than " + other);
+  }
+
+  default ValidationResult<Integer> isGreaterThan(Integer value, Integer other, String invalidMessage) {
+    if (value > other) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failure(value, invalidMessage);
+    }
+  }
 }
