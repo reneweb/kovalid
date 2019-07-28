@@ -70,9 +70,9 @@ public class ValidationResult<T> {
 
   public void throwIfFailed() {
     if (message.isPresent()) {
-      throw new ValidationException(message.get());
+      throw new ValidationException(message.get(), subValidationResults);
     } else {
-      throw new ValidationException();
+      throw new ValidationException(subValidationResults);
     }
   }
 
@@ -82,9 +82,9 @@ public class ValidationResult<T> {
       future.complete(value);
     } else {
       if (message.isPresent()) {
-        future.completeExceptionally(new ValidationException(message.get()));
+        future.completeExceptionally(new ValidationException(message.get(), subValidationResults));
       } else {
-        future.completeExceptionally(new ValidationException());
+        future.completeExceptionally(new ValidationException(subValidationResults));
       }
     }
 
