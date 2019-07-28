@@ -63,4 +63,16 @@ public interface StringValidators {
       return ValidationResult.failure(value, invalidMessage);
     }
   }
+
+  default ValidationResult<String> equals(String value, String toEqual) {
+    return equals(value, toEqual, "Value '" + value + "' does not equal " + toEqual);
+  }
+
+  default ValidationResult<String> equals(String value, String toEqual, String invalidMessage) {
+    if (value.equals(toEqual)) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failure(value, invalidMessage);
+    }
+  }
 }
