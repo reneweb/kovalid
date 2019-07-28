@@ -1,6 +1,8 @@
 package com.github.reneweb;
 
-public interface Covalid<I, O> {
+import com.github.reneweb.validators.StringValidators;
+
+public interface Covalid<I, O> extends StringValidators {
 
   ValidationResult<O> validate(I input);
 }
