@@ -17,4 +17,16 @@ public interface OptionalValidators {
       return ValidationResult.failure(value, invalidMessage);
     }
   }
+
+  default <T> ValidationResult<Optional<T>> containsInstanceOf(Optional<T> value, Class c) {
+    return containsInstanceOf(value, "Value is not a instance of " + c);
+  }
+
+  default <T> ValidationResult<Optional<T>> containsInstanceOf(Optional<T> value, String invalidMessage) {
+    if (value.isPresent() && getClass().isInstance(value.get())) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failure(value, invalidMessage);
+    }
+  }
 }
