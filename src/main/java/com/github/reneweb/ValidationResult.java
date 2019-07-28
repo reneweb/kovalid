@@ -51,16 +51,25 @@ public class ValidationResult<T> {
     return message;
   }
 
-  public <K> ValidationResult<Void> and(ValidationResult<K> otherResult) {
+  public <K> ValidationResult<List> and(ValidationResult<K> otherResult) {
     if (subValidationResults.isEmpty()) {
+      List<Object> values = new ArrayList<>();
+      values.add(this.value);
+      values.add(otherResult.value);
+
       List<SubValidationResult> validationResults = new ArrayList<>();
       validationResults.add(SubValidationResult.from(this));
       validationResults.add(SubValidationResult.from(otherResult));
-      return new ValidationResult<>(null, this.valid && otherResult.valid, Optional.empty(), validationResults);
+
+      return new ValidationResult<>(values, this.valid && otherResult.valid, Optional.empty(), validationResults);
     } else {
+      List<Object> values = new ArrayList<>(this.subValidationResults);
+      values.add(otherResult.value);
+
       List<SubValidationResult> validationResults = new ArrayList<>(this.subValidationResults);
       validationResults.add(SubValidationResult.from(otherResult));
-      return new ValidationResult<>(null, this.valid && otherResult.valid, Optional.empty(), validationResults);
+
+      return new ValidationResult<>(values, this.valid && otherResult.valid, Optional.empty(), validationResults);
     }
   }
 
