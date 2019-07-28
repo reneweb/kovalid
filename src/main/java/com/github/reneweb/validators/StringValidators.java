@@ -4,11 +4,11 @@ import com.github.reneweb.ValidationResult;
 
 public interface StringValidators {
 
-  default ValidationResult<String> isNullOrEmpty(String value) {
-    return isNullOrEmpty(value, "Value is null or empty");
+  default ValidationResult<String> isNotNullOrEmpty(String value) {
+    return isNotNullOrEmpty(value, "Value is null or empty");
   }
 
-  default ValidationResult<String> isNullOrEmpty(String value, String invalidMessage) {
+  default ValidationResult<String> isNotNullOrEmpty(String value, String invalidMessage) {
     if (value != null && !value.isEmpty()) {
       return ValidationResult.success(value);
     } else {
