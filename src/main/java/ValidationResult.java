@@ -25,12 +25,12 @@ public class ValidationResult<T> {
     return new ValidationResult<>(value, false, Optional.of(message), new ArrayList<>());
   }
 
-  public interface ValidationResultFromBuilder<K> {
-    ValidationResult<K> of(final K value, final boolean valid, final String message);
-  }
-
-  public static <T> ValidationResultFromBuilder<T> from(ValidationResult<T> from) {
-    return (value, valid, message) -> new ValidationResult<T>(value, valid, Optional.of(message), from.subValidationResults);
+  public static <T> Builder<T> from(ValidationResult<T> from) {
+    return new Builder<T>()
+        .setValue(from.value)
+        .setValid(from.valid)
+        .setMessage(from.message.orElse(null))
+        .setSubValidationResults(from.subValidationResults);
   }
 
   public T getValue() {
@@ -83,5 +83,40 @@ public class ValidationResult<T> {
     }
 
     return future;
+  }
+
+  public static class Builder <T> {
+    private T value;
+    private boolean valid;
+    private String message;
+    private List<ValidationResult> subValidationResults = new ArrayList<>();
+
+    public <K> Builder<K> setValue(K value) {
+      Builder<K> builder = new Builder<>();
+      builder.value = value;
+      builder.valid = valid;
+      builder.message = message;
+      builder.subValidationResults = subValidationResults;
+      return builder;
+    }
+
+    public Builder<T> setValid(boolean valid) {
+      this.valid = valid;
+      return this;
+    }
+
+    public Builder<T> setMessage(String message) {
+      this.message = message;
+      return this;
+    }
+
+    public Builder<T> setSubValidationResults(List<ValidationResult> subValidationResults) {
+      this.subValidationResults = subValidationResults;
+      return this;
+    }
+
+    public ValidationResult<T> build() {
+      return new ValidationResult<>(value, valid, Optional.ofNullable(message), subValidationResults);
+    }
   }
 }
