@@ -9,12 +9,12 @@ import java.util.concurrent.CompletableFuture;
 public class ValidationResult<T> {
   private final T value;
   private final boolean valid;
-  private final Optional<String> message;
+  private final String message;
   private final List<SubValidationResult> subValidationResults;
 
   private ValidationResult(final T value,
                            final boolean valid,
-                           final Optional<String> message,
+                           final String message,
                            final List<SubValidationResult> subValidationResults) {
     this.value = value;
     this.valid = valid;
@@ -23,18 +23,18 @@ public class ValidationResult<T> {
   }
 
   public static <T> ValidationResult<T> success(final T value) {
-    return new ValidationResult<>(value, true, Optional.empty(), new ArrayList<>());
+    return new ValidationResult<>(value, true, null, new ArrayList<>());
   }
 
   public static <T> ValidationResult<T> failure(final T value, final String message) {
-    return new ValidationResult<>(value, false, Optional.of(message), new ArrayList<>());
+    return new ValidationResult<>(value, false, message, new ArrayList<>());
   }
 
   public static <T> Builder<T> from(ValidationResult<T> from) {
     Builder<T> builder = new Builder<>();
     builder.value = from.value;
     builder.valid = from.valid;
-    builder.message = from.message.orElse(null);
+    builder.message = from.message;
     builder.subValidationResults = from.subValidationResults;
     return builder;
   }
@@ -47,7 +47,7 @@ public class ValidationResult<T> {
     return valid;
   }
 
-  public Optional<String> getMessage() {
+  public String getMessage() {
     return message;
   }
 
@@ -61,7 +61,7 @@ public class ValidationResult<T> {
       validationResults.add(SubValidationResult.from(this));
       validationResults.add(SubValidationResult.from(otherResult));
 
-      return new ValidationResult<>(values, this.valid && otherResult.valid, Optional.empty(), validationResults);
+      return new ValidationResult<>(values, this.valid && otherResult.valid, resolveMessage(otherResult), validationResults);
     } else {
       List<Object> values = new ArrayList<>(this.subValidationResults);
       values.add(otherResult.value);
@@ -69,17 +69,13 @@ public class ValidationResult<T> {
       List<SubValidationResult> validationResults = new ArrayList<>(this.subValidationResults);
       validationResults.add(SubValidationResult.from(otherResult));
 
-      return new ValidationResult<>(values, this.valid && otherResult.valid, Optional.empty(), validationResults);
+      return new ValidationResult<>(values, this.valid && otherResult.valid, resolveMessage(otherResult), validationResults);
     }
   }
 
-  public void addSubValidationResults(SubValidationResult... validationResults) {
-    subValidationResults.addAll(Arrays.asList(validationResults));
-  }
-
   public void throwIfFailed() {
-    if (message.isPresent()) {
-      throw new ValidationException(message.get(), subValidationResults);
+    if (message != null) {
+      throw new ValidationException(message, subValidationResults);
     } else {
       throw new ValidationException(subValidationResults);
     }
@@ -90,14 +86,24 @@ public class ValidationResult<T> {
     if (valid) {
       future.complete(value);
     } else {
-      if (message.isPresent()) {
-        future.completeExceptionally(new ValidationException(message.get(), subValidationResults));
+      if (message != null) {
+        future.completeExceptionally(new ValidationException(message, subValidationResults));
       } else {
         future.completeExceptionally(new ValidationException(subValidationResults));
       }
     }
 
     return future;
+  }
+
+  private <K> String resolveMessage(final ValidationResult<K> otherResult) {
+    if (this.message != null && !this.valid) {
+      return this.message;
+    } else if(otherResult.message != null && !otherResult.valid) {
+      return otherResult.message;
+    } else {
+      return otherResult.message;
+    }
   }
 
   public static class Builder <T> {
@@ -131,7 +137,7 @@ public class ValidationResult<T> {
     }
 
     public ValidationResult<T> build() {
-      return new ValidationResult<>(value, valid, Optional.ofNullable(message), subValidationResults);
+      return new ValidationResult<>(value, valid, message, subValidationResults);
     }
   }
 }
