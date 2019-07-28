@@ -12,8 +12,12 @@ public class ValidationResult<T> {
     this.message = message;
   }
 
-  public static <T> ValidationResult<T> of(final T value, final boolean result, final Optional<String> message) {
-    return new ValidationResult<>(value, result, message);
+  public static <T> ValidationResult<T> of(final T value, final boolean result) {
+    return new ValidationResult<>(value, result, Optional.empty());
+  }
+
+  public static <T> ValidationResult<T> of(final T value, final boolean result, final String message) {
+    return new ValidationResult<>(value, result, Optional.of(message));
   }
 
   public T getValue() {
