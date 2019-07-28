@@ -43,4 +43,12 @@ public interface StringValidators {
   default ValidationResult<String> startsWith(String value, String start) {
     return startsWith(value, start, "Value " + value + " does not start with " + start);
   }
+
+  default ValidationResult<String> startsWith(String value, String start, String invalidMessage) {
+    if (value.startsWith(start)) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failure(value, invalidMessage);
+    }
+  }
 }
