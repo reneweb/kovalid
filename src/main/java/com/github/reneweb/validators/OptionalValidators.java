@@ -29,4 +29,16 @@ public interface OptionalValidators {
       return ValidationResult.failure(value, invalidMessage);
     }
   }
+
+  default <T> ValidationResult<Optional<T>> contains(Optional<T> value, T valueToContain) {
+    return contains(value, valueToContain, "Value is not contain " + valueToContain);
+  }
+
+  default <T> ValidationResult<Optional<T>> contains(Optional<T> value, T valueToContain, String invalidMessage) {
+    if (value.isPresent() && value.get().equals(valueToContain)) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failure(value, invalidMessage);
+    }
+  }
 }
