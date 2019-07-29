@@ -2,7 +2,7 @@ package com.github.reneweb;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SubValidationResultTest {
 
@@ -10,7 +10,7 @@ class SubValidationResultTest {
   public void shouldCreateFromValidationResult() {
     ValidationResult<String> validationResult = ValidationResult.success("something");
     SubValidationResult subValidationResult = SubValidationResult.from(validationResult);
-    assertEquals(subValidationResult.isValid(), validationResult.isValid());
-    assertEquals(subValidationResult.getMessage(), validationResult.getMessage());
+    assertThat(subValidationResult.isValid()).isEqualTo(validationResult.isValid());
+    assertThat(subValidationResult.getMessage()).isEqualTo(validationResult.getMessage());
   }
 }

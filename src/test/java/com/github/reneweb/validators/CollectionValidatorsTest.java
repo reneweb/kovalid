@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CollectionValidatorsTest {
 
@@ -22,16 +22,16 @@ class CollectionValidatorsTest {
     ValidationResult<List<String>> resultFailure = cv.hasAtLeastElements(list, 3);
     ValidationResult<List<String>> resultFailureCustomMessage = cv.hasAtLeastElements(list, 3, "custom");
 
-    assertEquals(resultSuccess.isValid(), true);
-    assertEquals(resultSuccess.getValue(), list);
-    assertEquals(resultSuccessCustomMessage.isValid(), true);
-    assertEquals(resultSuccessCustomMessage.getMessage(), null);
-    assertEquals(resultSuccessCustomMessage.getValue(), list);
+    assertThat(resultSuccess.isValid()).isTrue();
+    assertThat(resultSuccess.getValue()).isEqualTo(list);
+    assertThat(resultSuccessCustomMessage.isValid()).isTrue();
+    assertThat(resultSuccessCustomMessage.getMessage()).isNull();
+    assertThat(resultSuccessCustomMessage.getValue()).isEqualTo(list);
 
-    assertEquals(resultFailure.isValid(), false);
-    assertEquals(resultFailure.getValue(), list);
-    assertEquals(resultFailureCustomMessage.isValid(), false);
-    assertEquals(resultFailureCustomMessage.getMessage(), "custom");
-    assertEquals(resultFailureCustomMessage.getValue(), list);
+    assertThat(resultFailure.isValid()).isFalse();
+    assertThat(resultFailure.getValue()).isEqualTo(list);
+    assertThat(resultFailureCustomMessage.isValid()).isFalse();
+    assertThat(resultFailureCustomMessage.getMessage()).isEqualTo("custom");
+    assertThat(resultFailureCustomMessage.getValue()).isEqualTo(list);
   }
 }
