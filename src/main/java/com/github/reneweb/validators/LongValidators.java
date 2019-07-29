@@ -17,7 +17,7 @@ public interface LongValidators {
   }
 
   default ValidationResult<Long> isGreaterThan(Long value, Long other) {
-    return isEqual(value, other, "Value '" + value + "' is not greater than " + other);
+    return isGreaterThan(value, other, "Value '" + value + "' is not greater than " + other);
   }
 
   default ValidationResult<Long> isGreaterThan(Long value, Long other,
@@ -30,7 +30,7 @@ public interface LongValidators {
   }
 
   default ValidationResult<Long> isSmallerThan(Long value, Long other) {
-    return isEqual(value, other, "Value '" + value + "' is not smaller than " + other);
+    return isSmallerThan(value, other, "Value '" + value + "' is not smaller than " + other);
   }
 
   default ValidationResult<Long> isSmallerThan(Long value, Long other,
