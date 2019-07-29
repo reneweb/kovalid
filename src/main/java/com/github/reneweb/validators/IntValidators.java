@@ -17,7 +17,7 @@ public interface IntValidators {
   }
 
   default ValidationResult<Integer> isGreaterThan(Integer value, Integer other) {
-    return isEqual(value, other, "Value '" + value + "' is not greater than " + other);
+    return isGreaterThan(value, other, "Value '" + value + "' is not greater than " + other);
   }
 
   default ValidationResult<Integer> isGreaterThan(Integer value, Integer other, String invalidMessage) {
@@ -29,7 +29,7 @@ public interface IntValidators {
   }
 
   default ValidationResult<Integer> isSmallerThan(Integer value, Integer other) {
-    return isEqual(value, other, "Value '" + value + "' is not smaller than " + other);
+    return isSmallerThan(value, other, "Value '" + value + "' is not smaller than " + other);
   }
 
   default ValidationResult<Integer> isSmallerThan(Integer value, Integer other, String invalidMessage) {
