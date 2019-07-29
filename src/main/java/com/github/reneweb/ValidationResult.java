@@ -21,14 +21,32 @@ public class ValidationResult<T> {
     this.subValidationResults = subValidationResults;
   }
 
+  /**
+   * Creates a new successful {@link ValidationResult} for the given object
+   * @param value the object that has been successfully validated
+   * @param <T> The type of the validated object
+   * @return The created {@link ValidationResult}
+   */
   public static <T> ValidationResult<T> success(final T value) {
     return new ValidationResult<>(value, true, null, new ArrayList<>());
   }
 
+  /**
+   * Creates a new failed {@link ValidationResult} for the given object
+   * @param value the object that has been unsuccessfully validated
+   * @param <T> The type of the validated object
+   * @return The created {@link ValidationResult}
+   */
   public static <T> ValidationResult<T> failure(final T value, final String message) {
     return new ValidationResult<>(value, false, message, new ArrayList<>());
   }
 
+  /**
+   * Creates a {@link Builder} to create a new {@link ValidationResult} based on the given one.
+   * @param from The given {@link ValidationResult}. All the fields from this result will be copied into the builder and can then be overwritten by the builder methods.
+   * @param <T> The type of the validated object
+   * @return The builder to overwrite fields from the given validation result.
+   */
   public static <T> Builder<T> from(ValidationResult<T> from) {
     Builder<T> builder = new Builder<>();
     builder.value = from.value;
@@ -38,18 +56,41 @@ public class ValidationResult<T> {
     return builder;
   }
 
+  /**
+   * Returns the value for the {@link ValidationResult}. Can be null.
+   * @return the value
+   */
   public T getValue() {
     return value;
   }
 
+  /**
+   * Returns true if the validation result is successful. False otherwise
+   * @return the validation result as a boolean
+   */
   public boolean isValid() {
     return valid;
   }
 
+  /**
+   * The message that has been set for the validation result. Can be null.
+   * @return the message
+   */
   public String getMessage() {
     return message;
   }
 
+  /**
+   * Combines the current with the given {@link ValidationResult}.
+   * The returned {@link ValidationResult} will have a list of all the combined values - this list is untyped as the values can be of different types.
+   * The valid boolean will be true if all the combined validations are successful, false otherwise.
+   * The message will contain the message of the first failed combined validation result. If all of them are successful it will be null.
+   * The current validation result and the given one will be added to the sub validation results list.
+   *
+   * @param otherResult The validation result to combine with this one.
+   * @param <K> The type of the other validation result
+   * @return A new validation results which contains the current one and the given one in the sub validation results list.
+   */
   public <K> ValidationResult<List> and(ValidationResult<K> otherResult) {
     if (subValidationResults.isEmpty()) {
       List<Object> values = new ArrayList<>();
@@ -72,10 +113,18 @@ public class ValidationResult<T> {
     }
   }
 
+  /**
+   * Returns the {@link SubValidationResult} list
+   * @return the {@link SubValidationResult} list
+   */
   public List<SubValidationResult> getSubValidationResults() {
     return subValidationResults;
   }
 
+  /**
+   * Returns the {@link SubValidationResult} list only containing successful validation results
+   * @return the {@link SubValidationResult} list
+   */
   public List<SubValidationResult> getSuccessfulSubValidationResults() {
     return subValidationResults
         .stream()
@@ -83,6 +132,10 @@ public class ValidationResult<T> {
         .collect(Collectors.toList());
   }
 
+  /**
+   * Returns the {@link SubValidationResult} list only containing failed validation results
+   * @return the {@link SubValidationResult} list
+   */
   public List<SubValidationResult> getFailedSubValidationResults() {
     return subValidationResults
         .stream()
@@ -90,14 +143,22 @@ public class ValidationResult<T> {
         .collect(Collectors.toList());
   }
 
+  /**
+   * Throws a {@link ValidationException} if the validation result is unsuccessful
+   */
   public void throwIfFailed() {
-    if (message != null) {
+    if (!valid && message != null) {
       throw new ValidationException(message, subValidationResults);
-    } else {
+    } else if (!valid) {
       throw new ValidationException(subValidationResults);
     }
   }
 
+  /**
+   * Returns a {@link CompletableFuture} containing the value of the validation result.
+   * If the validation result is unsuccessful the {@link CompletableFuture} will be exceptional with a {@link ValidationException};
+   * @return the resulting {@link CompletableFuture}
+   */
   public CompletableFuture<T> asCompletableFuture() {
     CompletableFuture<T> future = new CompletableFuture<>();
     if (valid) {
