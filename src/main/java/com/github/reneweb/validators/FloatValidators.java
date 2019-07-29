@@ -17,7 +17,7 @@ public interface FloatValidators {
   }
 
   default ValidationResult<Float> isGreaterThan(Float value, Float other) {
-    return isEqual(value, other, "Value '" + value + "' is not greater than " + other);
+    return isGreaterThan(value, other, "Value '" + value + "' is not greater than " + other);
   }
 
   default ValidationResult<Float> isGreaterThan(Float value, Float other,
@@ -30,7 +30,7 @@ public interface FloatValidators {
   }
 
   default ValidationResult<Float> isSmallerThan(Float value, Float other) {
-    return isEqual(value, other, "Value '" + value + "' is not smaller than " + other);
+    return isSmallerThan(value, other, "Value '" + value + "' is not smaller than " + other);
   }
 
   default ValidationResult<Float> isSmallerThan(Float value, Float other,
