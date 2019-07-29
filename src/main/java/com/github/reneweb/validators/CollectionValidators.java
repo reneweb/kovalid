@@ -19,10 +19,10 @@ public interface CollectionValidators {
   }
 
   default <E, T extends Collection<E>> ValidationResult<T> containsElement(T value, E element) {
-    return hasAtLeastElements(value, element, "Collection does not contain element");
+    return containsElement(value, element, "Collection does not contain element");
   }
 
-  default <E, T extends Collection<E>> ValidationResult<T> hasAtLeastElements(T value, E element, String invalidMessage) {
+  default <E, T extends Collection<E>> ValidationResult<T> containsElement(T value, E element, String invalidMessage) {
     if (value.contains(element)) {
       return ValidationResult.success(value);
     } else {
