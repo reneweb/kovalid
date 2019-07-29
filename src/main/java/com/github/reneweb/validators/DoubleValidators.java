@@ -17,7 +17,7 @@ public interface DoubleValidators {
   }
 
   default ValidationResult<Double> isGreaterThan(Double value, Double other) {
-    return isEqual(value, other, "Value '" + value + "' is not greater than " + other);
+    return isGreaterThan(value, other, "Value '" + value + "' is not greater than " + other);
   }
 
   default ValidationResult<Double> isGreaterThan(Double value, Double other,
@@ -30,7 +30,7 @@ public interface DoubleValidators {
   }
 
   default ValidationResult<Double> isSmallerThan(Double value, Double other) {
-    return isEqual(value, other, "Value '" + value + "' is not smaller than " + other);
+    return isSmallerThan(value, other, "Value '" + value + "' is not smaller than " + other);
   }
 
   default ValidationResult<Double> isSmallerThan(Double value, Double other,
