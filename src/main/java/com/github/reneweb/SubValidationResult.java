@@ -1,14 +1,13 @@
 package com.github.reneweb;
 
-import java.util.List;
 import java.util.Optional;
 
 public class SubValidationResult {
   private final boolean valid;
-  private final Optional<String> message;
+  private final String message;
 
   private SubValidationResult(final boolean valid,
-                              final Optional<String> message) {
+                              final String message) {
     this.valid = valid;
     this.message = message;
   }
@@ -21,7 +20,7 @@ public class SubValidationResult {
     return valid;
   }
 
-  public Optional<String> getMessage() {
+  public String getMessage() {
     return message;
   }
 }
