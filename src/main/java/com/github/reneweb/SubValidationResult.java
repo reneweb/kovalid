@@ -1,7 +1,5 @@
 package com.github.reneweb;
 
-import java.util.Optional;
-
 public class SubValidationResult {
   private final boolean valid;
   private final String message;
