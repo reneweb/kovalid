@@ -21,7 +21,7 @@ public interface StringValidators {
   }
 
   default ValidationResult<String> hasLength(String value, int length, String invalidMessage) {
-    if (value.length() >= length) {
+    if (value.length() == length) {
       return ValidationResult.success(value);
     } else {
       return ValidationResult.failure(value, invalidMessage);
@@ -53,7 +53,7 @@ public interface StringValidators {
   }
 
   default ValidationResult<String> endsWith(String value, String end) {
-    return startsWith(value, end, "Value '" + value + "' does not end with " + end);
+    return endsWith(value, end, "Value '" + value + "' does not end with " + end);
   }
 
   default ValidationResult<String> endsWith(String value, String end, String invalidMessage) {
@@ -77,7 +77,7 @@ public interface StringValidators {
   }
 
   default ValidationResult<String> matchesRegex(String value, String regex) {
-    return equals(value, regex, "Value '" + value + "' does not match regex " + regex);
+    return matchesRegex(value, regex, "Value '" + value + "' does not match regex " + regex);
   }
 
   default ValidationResult<String> matchesRegex(String value, String regex, String invalidMessage) {
