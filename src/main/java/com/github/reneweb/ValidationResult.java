@@ -187,6 +187,22 @@ public class ValidationResult<T> {
         mapper.apply(this.value), this.valid, this.message, this.subValidationResults);
   }
 
+  /**
+   * Translates this {@link ValidationResult} to a successful validation. Has not effect if the validation is already successful.
+   * @return The new successful {@link ValidationResult}
+   */
+  public ValidationResult<T> toSuccess() {
+    return new ValidationResult<>(this.value, true, this.message, this.subValidationResults);
+  }
+
+  /**
+   * Translates this {@link ValidationResult} to a failed validation. If the validation result is already failed only the message will change.
+   * @return The new failed {@link ValidationResult}
+   */
+  public ValidationResult<T> toFailure(String message) {
+    return new ValidationResult<>(this.value, false, message, this.subValidationResults);
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) {
