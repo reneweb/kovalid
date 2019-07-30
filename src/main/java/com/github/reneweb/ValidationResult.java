@@ -3,6 +3,7 @@ package com.github.reneweb;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -174,6 +175,18 @@ public class ValidationResult<T> {
     }
 
     return future;
+  }
+
+  /**
+   * Returns a {@link Optional<T>} of the result is valid, otherwise an empty {@link Optional<T>}
+   * @return the validation result as an optional
+   */
+  public Optional<T> asOptional() {
+    if (valid) {
+      return Optional.of(value);
+    } else {
+      return Optional.empty();
+    }
   }
 
   private <K> String resolveMessage(final ValidationResult<K> otherResult) {

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletionException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -98,5 +99,18 @@ class ValidationResultTest {
         CompletionException.class,
         () -> ValidationResult.failure("some value", "message").asCompletableFuture().join());
     assertThat(completionException).hasCauseInstanceOf(ValidationException.class);
+  }
+
+  @Test
+  void asOptionalShouldReturnPresentOptionalIfValidationSuccessful() {
+    Optional<String> value = ValidationResult.success("some value").asOptional();
+    assertThat(value).isPresent();
+    assertThat(value).contains("some value");
+  }
+
+  @Test
+  void asOptionalShouldReturnAbsentOptionalIfValidationFailed() {
+    Optional<String> value = ValidationResult.failure("some value", "message").asOptional();
+    assertThat(value).isNotPresent();
   }
 }
