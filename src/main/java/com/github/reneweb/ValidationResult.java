@@ -203,6 +203,21 @@ public class ValidationResult<T> {
     return new ValidationResult<>(this.value, false, message, this.subValidationResults);
   }
 
+  /**
+   * Resolves this {@link ValidationResult} to a new type.
+   * @param success Function to translate the value for successful validations into the result type.
+   * @param failure Function to translate the value & message for failed validations into the result type.
+   * @param <R> The result type
+   * @return The resulting object
+   */
+  public <R> R resolve(Function<T, R> success, BiFunction<T, String, R> failure) {
+    if (this.valid) {
+      return success.apply(this.value);
+    } else {
+      return failure.apply(this.value, this.message);
+    }
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) {
