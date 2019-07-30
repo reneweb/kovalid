@@ -28,15 +28,6 @@ class ValidationResultTest {
   }
 
   @Test
-  void fromShouldConstructAValidationResultFromAnExistingOne() {
-    ValidationResult<String> resultFrom = ValidationResult.success("some value");
-    ValidationResult<String> result = ValidationResult.from(resultFrom).setValid(false).setMessage("actually failed").build();
-    assertThat(result.isValid()).isFalse();
-    assertThat(result.getValue()).isEqualTo("some value");
-    assertThat(result.getMessage()).isEqualTo("actually failed");
-  }
-
-  @Test
   void andShouldCombineResults() {
     ValidationResult<String> resultFirst = ValidationResult.success("some value");
     ValidationResult<String> resultSecond = ValidationResult.failure("some other value", "failed");

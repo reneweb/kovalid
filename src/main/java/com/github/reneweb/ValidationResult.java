@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ValidationResult<T> {
@@ -41,21 +43,6 @@ public class ValidationResult<T> {
    */
   public static <T> ValidationResult<T> failure(final T value, final String message) {
     return new ValidationResult<>(value, false, message, new ArrayList<>());
-  }
-
-  /**
-   * Creates a {@link Builder} to create a new {@link ValidationResult} based on the given one.
-   * @param from The given {@link ValidationResult}. All the fields from this result will be copied into the builder and can then be overwritten by the builder methods.
-   * @param <T> The type of the validated object
-   * @return The builder to overwrite fields from the given validation result.
-   */
-  public static <T> Builder<T> from(ValidationResult<T> from) {
-    Builder<T> builder = new Builder<>();
-    builder.value = from.value;
-    builder.valid = from.valid;
-    builder.message = from.message;
-    builder.subValidationResults = from.subValidationResults;
-    return builder;
   }
 
   /**
@@ -189,16 +176,6 @@ public class ValidationResult<T> {
     }
   }
 
-  private <K> String resolveMessage(final ValidationResult<K> otherResult) {
-    if (this.message != null && !this.valid) {
-      return this.message;
-    } else if(otherResult.message != null && !otherResult.valid) {
-      return otherResult.message;
-    } else {
-      return otherResult.message;
-    }
-  }
-
   @Override
   public boolean equals(final Object o) {
     if (this == o) {
@@ -219,38 +196,14 @@ public class ValidationResult<T> {
     return Objects.hash(value, valid, message, subValidationResults);
   }
 
-  public static class Builder <T> {
-    private T value;
-    private boolean valid;
-    private String message;
-    private List<SubValidationResult> subValidationResults = new ArrayList<>();
 
-    public <K> Builder<K> setValue(K value) {
-      Builder<K> builder = new Builder<>();
-      builder.value = value;
-      builder.valid = valid;
-      builder.message = message;
-      builder.subValidationResults = subValidationResults;
-      return builder;
-    }
-
-    public Builder<T> setValid(boolean valid) {
-      this.valid = valid;
-      return this;
-    }
-
-    public Builder<T> setMessage(String message) {
-      this.message = message;
-      return this;
-    }
-
-    public Builder<T> setSubValidationResults(List<SubValidationResult> subValidationResults) {
-      this.subValidationResults = subValidationResults;
-      return this;
-    }
-
-    public ValidationResult<T> build() {
-      return new ValidationResult<>(value, valid, message, subValidationResults);
+  private <K> String resolveMessage(final ValidationResult<K> otherResult) {
+    if (this.message != null && !this.valid) {
+      return this.message;
+    } else if(otherResult.message != null && !otherResult.valid) {
+      return otherResult.message;
+    } else {
+      return otherResult.message;
     }
   }
 }
