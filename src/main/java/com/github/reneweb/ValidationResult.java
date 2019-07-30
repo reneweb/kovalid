@@ -176,6 +176,17 @@ public class ValidationResult<T> {
     }
   }
 
+  /**
+   * Maps the value of the validation result to a new value
+   * @param mapper The function to map to the new value
+   * @param <K> The new type of the value
+   * @return The validation result with the new mapped value
+   */
+  public <K> ValidationResult<K> map(Function<T, K> mapper) {
+    return new ValidationResult<>(
+        mapper.apply(this.value), this.valid, this.message, this.subValidationResults);
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) {
