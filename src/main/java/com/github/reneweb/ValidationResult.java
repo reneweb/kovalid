@@ -199,7 +199,7 @@ public class ValidationResult<T> {
    * Translates this {@link ValidationResult} to a failed validation. If the validation result is already failed only the message will change.
    * @return The new failed {@link ValidationResult}
    */
-  public ValidationResult<T> toFailure(String message) {
+  public ValidationResult<T> toFailed(String message) {
     return new ValidationResult<>(this.value, false, message, this.subValidationResults);
   }
 

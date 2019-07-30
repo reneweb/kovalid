@@ -120,8 +120,8 @@ class ValidationResultTest {
   }
 
   @Test
-  void toFailureShouldTranslateResultToFailureOne() {
-    ValidationResult<String> value = ValidationResult.success("some value").toFailure("message");
+  void toFailedShouldTranslateResultToFailureOne() {
+    ValidationResult<String> value = ValidationResult.success("some value").toFailed("message");
     assertThat(value.isValid()).isFalse();
     assertThat(value.getValue()).isEqualTo("some value");
     assertThat(value.getMessage()).isEqualTo("message");
