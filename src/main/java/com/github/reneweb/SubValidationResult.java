@@ -1,5 +1,7 @@
 package com.github.reneweb;
 
+import java.util.Objects;
+
 public class SubValidationResult {
   private final boolean valid;
   private final String message;
@@ -20,5 +22,23 @@ public class SubValidationResult {
 
   public String getMessage() {
     return message;
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final SubValidationResult that = (SubValidationResult) o;
+    return valid == that.valid &&
+           Objects.equals(message, that.message);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(valid, message);
   }
 }

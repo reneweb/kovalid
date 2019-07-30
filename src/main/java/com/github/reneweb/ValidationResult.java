@@ -2,6 +2,7 @@ package com.github.reneweb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -103,7 +104,8 @@ public class ValidationResult<T> {
 
       return new ValidationResult<>(values, this.valid && otherResult.valid, resolveMessage(otherResult), validationResults);
     } else {
-      List<Object> values = new ArrayList<>(this.subValidationResults);
+      @SuppressWarnings("unchecked")
+      List<Object> values = new ArrayList<>((List<Object>)this.value);
       values.add(otherResult.value);
 
       List<SubValidationResult> validationResults = new ArrayList<>(this.subValidationResults);
@@ -182,6 +184,26 @@ public class ValidationResult<T> {
     } else {
       return otherResult.message;
     }
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final ValidationResult<?> that = (ValidationResult<?>) o;
+    return valid == that.valid &&
+           Objects.equals(value, that.value) &&
+           Objects.equals(message, that.message) &&
+           Objects.equals(subValidationResults, that.subValidationResults);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value, valid, message, subValidationResults);
   }
 
   public static class Builder <T> {
