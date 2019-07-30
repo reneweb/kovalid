@@ -104,4 +104,42 @@ class ValidationResultTest {
     Optional<String> value = ValidationResult.failure("some value", "message").asOptional();
     assertThat(value).isNotPresent();
   }
+
+  @Test
+  void mapShouldMapToNewValue() {
+    ValidationResult<Integer> value = ValidationResult.success("some value").map((v) -> 5);
+    assertThat(value.isValid()).isTrue();
+    assertThat(value.getValue()).isEqualTo(5);
+  }
+
+  @Test
+  void toSuccessShouldTranslateResultToSuccessfulOne() {
+    ValidationResult<String> value = ValidationResult.failure("some value", "message").toSuccess();
+    assertThat(value.isValid()).isTrue();
+    assertThat(value.getValue()).isEqualTo("some value");
+  }
+
+  @Test
+  void toFailureShouldTranslateResultToFailureOne() {
+    ValidationResult<String> value = ValidationResult.success("some value").toFailure("message");
+    assertThat(value.isValid()).isFalse();
+    assertThat(value.getValue()).isEqualTo("some value");
+    assertThat(value.getMessage()).isEqualTo("message");
+  }
+
+  @Test
+  void resolveShouldTranslateToNewType() {
+    Optional<String> valueSuccess = ValidationResult
+        .success("some value")
+        .resolve(Optional::of, (v, msg) -> Optional.empty());
+
+    Optional<String> valueFailed = ValidationResult
+        .failure("some value", "message")
+        .resolve(Optional::of, (v, msg) -> Optional.empty());
+
+    assertThat(valueSuccess).isPresent();
+    assertThat(valueSuccess).contains("some value");
+
+    assertThat(valueFailed).isNotPresent();
+  }
 }
