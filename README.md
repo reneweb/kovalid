@@ -6,20 +6,23 @@ A simple, zero-dependency validation library for Java.
 ### Basic usage
 ```java
 class MyValidator implements Covalid<ToValidate, Integer> {
-  public ValidationResult<Integer> validate(ToValidate input) {
+  public ValidationResult<ToValidate> validate(ToValidate input) {
     return isNotNullOrEmpty(input.aString)
         .and(isGreaterThan(input.aInteger, 0))
         .and(isPresent(input.aOptional, "This is not aOptional"))
-        .map(List::size);
+        .map((v) -> input);
   }
 }
 ```
 There are a range of different built in validators some of which are used in this example.
+
 They are combined using the 'and' operator which will result in a new validation result.
 This new result will contain an untyped list of all the values from the different combined validations.
 It will be marked as successful if all the combined results are successful, false otherwise.
 The message of the result will be that of the first failed result of the combined ones and null if all of them succeeded.
 The sub validation results list will contain all the combined validation results.
+
+In the last step the value of the result is mapped to the original input, which makes it later on accessible from the validation result.
 
 ### Creating a custom result object
 ```java
