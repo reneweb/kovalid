@@ -14,7 +14,7 @@ public interface CollectionValidators {
     if (value.size() >= count) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -26,7 +26,7 @@ public interface CollectionValidators {
     if (value.contains(element)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 }

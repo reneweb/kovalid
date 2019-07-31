@@ -12,7 +12,7 @@ public interface IntValidators {
     if (value.equals(toEqual)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -24,7 +24,7 @@ public interface IntValidators {
     if (value > other) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -36,7 +36,7 @@ public interface IntValidators {
     if (value < other) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 }

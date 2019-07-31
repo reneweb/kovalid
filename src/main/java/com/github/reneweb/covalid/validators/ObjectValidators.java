@@ -11,7 +11,7 @@ public interface ObjectValidators {
     if (value != null) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -23,7 +23,7 @@ public interface ObjectValidators {
     if (c.isInstance(value)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 }

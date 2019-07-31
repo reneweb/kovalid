@@ -14,7 +14,7 @@ public interface OptionalValidators {
     if (value.isPresent()) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -26,7 +26,7 @@ public interface OptionalValidators {
     if (value.isPresent() && c.isInstance(value.get())) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -38,7 +38,7 @@ public interface OptionalValidators {
     if (value.isPresent() && value.get().equals(valueToContain)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 }

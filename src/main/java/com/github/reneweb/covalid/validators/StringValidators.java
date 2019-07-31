@@ -12,7 +12,7 @@ public interface StringValidators {
     if (value != null && !value.isEmpty()) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -24,7 +24,7 @@ public interface StringValidators {
     if (value.length() == length) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -36,7 +36,7 @@ public interface StringValidators {
     if (value.contains(contains)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -48,7 +48,7 @@ public interface StringValidators {
     if (value.startsWith(start)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -60,7 +60,7 @@ public interface StringValidators {
     if (value.endsWith(end)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -72,7 +72,7 @@ public interface StringValidators {
     if (value.equals(toEqual)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 
@@ -84,7 +84,7 @@ public interface StringValidators {
     if (value.matches(regex)) {
       return ValidationResult.success(value);
     } else {
-      return ValidationResult.failure(value, invalidMessage);
+      return ValidationResult.failed(value, invalidMessage);
     }
   }
 }

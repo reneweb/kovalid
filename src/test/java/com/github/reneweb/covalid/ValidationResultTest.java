@@ -20,8 +20,8 @@ class ValidationResultTest {
   }
 
   @Test
-  void failureShouldCreateAFailedValidationResult() {
-    ValidationResult<String> result = ValidationResult.failure("some value", "message");
+  void failedShouldCreateAFailedValidationResult() {
+    ValidationResult<String> result = ValidationResult.failed("some value", "message");
     assertThat(result.isValid()).isFalse();
     assertThat(result.getValue()).isEqualTo("some value");
     assertThat(result.getMessage()).isEqualTo("message");
@@ -30,7 +30,7 @@ class ValidationResultTest {
   @Test
   void andShouldCombineResults() {
     ValidationResult<String> resultFirst = ValidationResult.success("some value");
-    ValidationResult<String> resultSecond = ValidationResult.failure("some other value", "failed");
+    ValidationResult<String> resultSecond = ValidationResult.failed("some other value", "failed");
     ValidationResult<Integer> resultThird = ValidationResult.success(5);
 
     ValidationResult<List> result = resultFirst.and(resultSecond).and(resultThird);
@@ -46,7 +46,7 @@ class ValidationResultTest {
   @Test
   void getSuccessfulSubValidationResultsShouldFilterSuccessfulSubResults() {
     ValidationResult<String> resultFirst = ValidationResult.success("some value");
-    ValidationResult<String> resultSecond = ValidationResult.failure("some other value", "failed");
+    ValidationResult<String> resultSecond = ValidationResult.failed("some other value", "failed");
     ValidationResult<Integer> resultThird = ValidationResult.success(5);
 
     ValidationResult<List> result = resultFirst.and(resultSecond).and(resultThird);
@@ -58,7 +58,7 @@ class ValidationResultTest {
   @Test
   void getFailedSubValidationResultsShouldFilterFailedSubResults() {
     ValidationResult<String> resultFirst = ValidationResult.success("some value");
-    ValidationResult<String> resultSecond = ValidationResult.failure("some other value", "failed");
+    ValidationResult<String> resultSecond = ValidationResult.failed("some other value", "failed");
     ValidationResult<Integer> resultThird = ValidationResult.success(5);
 
     ValidationResult<List> result = resultFirst.and(resultSecond).and(resultThird);
@@ -70,7 +70,7 @@ class ValidationResultTest {
   void throwIfFailedShouldThrowValidationExceptionOnFailedResult() {
     assertThrows(
         ValidationException.class,
-        () -> ValidationResult.failure("some value", "message").throwIfFailed());
+        () -> ValidationResult.failed("some value", "message").throwIfFailed());
   }
 
   @Test
@@ -88,7 +88,7 @@ class ValidationResultTest {
   void asCompletableFutureShouldCreateExceptionalCompletedFutureIfFailedResult() {
     CompletionException completionException = assertThrows(
         CompletionException.class,
-        () -> ValidationResult.failure("some value", "message").asCompletableFuture().join());
+        () -> ValidationResult.failed("some value", "message").asCompletableFuture().join());
     assertThat(completionException).hasCauseInstanceOf(ValidationException.class);
   }
 
@@ -101,7 +101,7 @@ class ValidationResultTest {
 
   @Test
   void asOptionalShouldReturnAbsentOptionalIfValidationFailed() {
-    Optional<String> value = ValidationResult.failure("some value", "message").asOptional();
+    Optional<String> value = ValidationResult.failed("some value", "message").asOptional();
     assertThat(value).isNotPresent();
   }
 
@@ -114,7 +114,7 @@ class ValidationResultTest {
 
   @Test
   void toSuccessShouldTranslateResultToSuccessfulOne() {
-    ValidationResult<String> value = ValidationResult.failure("some value", "message").toSuccess();
+    ValidationResult<String> value = ValidationResult.failed("some value", "message").toSuccess();
     assertThat(value.isValid()).isTrue();
     assertThat(value.getValue()).isEqualTo("some value");
   }
@@ -134,7 +134,7 @@ class ValidationResultTest {
         .resolve(Optional::of, (v, msg) -> Optional.empty());
 
     Optional<String> valueFailed = ValidationResult
-        .failure("some value", "message")
+        .failed("some value", "message")
         .resolve(Optional::of, (v, msg) -> Optional.empty());
 
     assertThat(valueSuccess).isPresent();

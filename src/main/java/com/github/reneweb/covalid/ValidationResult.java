@@ -41,7 +41,7 @@ public class ValidationResult<T> {
    * @param <T> The type of the validated object
    * @return The created {@link ValidationResult}
    */
-  public static <T> ValidationResult<T> failure(final T value, final String message) {
+  public static <T> ValidationResult<T> failed(final T value, final String message) {
     return new ValidationResult<>(value, false, message, new ArrayList<>());
   }
 
