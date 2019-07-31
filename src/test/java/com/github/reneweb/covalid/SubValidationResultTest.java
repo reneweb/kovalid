@@ -1,4 +1,4 @@
-package com.github.reneweb;
+package com.github.reneweb.covalid;
 
 import org.junit.jupiter.api.Test;
 

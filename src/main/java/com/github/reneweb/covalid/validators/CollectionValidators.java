@@ -1,6 +1,6 @@
-package com.github.reneweb.validators;
+package com.github.reneweb.covalid.validators;
 
-import com.github.reneweb.ValidationResult;
+import com.github.reneweb.covalid.ValidationResult;
 
 import java.util.Collection;
 
