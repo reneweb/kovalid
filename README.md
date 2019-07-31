@@ -14,6 +14,12 @@ class MyValidator implements Covalid<ToValidate, Integer> {
   }
 }
 ```
+There are a range of different built in validators some of which are used in this example.
+They are combined using the 'and' operator which will result in a new validation result.
+This new result will contain an untyped list of all the values from the different combined validations.
+It will be marked as successful if all the combined results are successful, false otherwise.
+The message of the result will be that of the first failed result of the combined ones and null if all of them succeeded.
+The sub validation results list will contain all the combined validation results.
 
 ### Creating a custom result object
 ```java
@@ -27,6 +33,7 @@ public class MyValidator implements Covalid<ToValidate, ToValidate> {
   }
 }
 ```
+In this case a new validation result is created for cases where the built in validation are not viable.
 
 ### Working with validation results
 ```java
@@ -34,7 +41,7 @@ public static void main(String[] args) {
   MyValidator mv = new MyValidator();
   ValidationResult<String> result = mv.validate(input)
     .map(v -> "new value") // Map over the value
-    .toFailed("failed message") // Change it to a failed validation, with the given error message
+    .toFailed("failed message") // Change it to a failed validation with the given error message
     .toSuccess(); // Turn back into a successful one
 
   // Turn into a optional
