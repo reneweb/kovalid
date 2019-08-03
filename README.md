@@ -19,7 +19,7 @@ class MyValidator implements Kovalid<ToValidate, Integer> {
   public ValidationResult<ToValidate> validate(ToValidate input) {
     return isNotNullOrEmpty(input.aString)
         .and(isGreaterThan(input.aInteger, 0))
-        .and(isPresent(input.aOptional, "This is not aOptional"))
+        .and(isPresent(input.aOptional, "The value is not present"))
         .map((v) -> input);
   }
 }
