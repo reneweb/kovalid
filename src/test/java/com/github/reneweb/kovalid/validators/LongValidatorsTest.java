@@ -1,22 +1,22 @@
-package com.github.reneweb.covalid.validators;
+package com.github.reneweb.kovalid.validators;
 
-import com.github.reneweb.covalid.ValidationResult;
+import com.github.reneweb.kovalid.ValidationResult;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FloatValidatorsTest {
+class LongValidatorsTest {
   @Test
   public void isEqual() {
-    Float value = 1.2F;
+    Long value = 1L;
 
-    FloatValidators dv = new FloatValidators() {};
-    ValidationResult<Float> resultSuccess = dv.isEqual(value, 1.2F);
-    ValidationResult<Float> resultSuccessCustomMessage = dv.isEqual(value, 1.2F, "custom");
+    LongValidators dv = new LongValidators() {};
+    ValidationResult<Long> resultSuccess = dv.isEqual(value, 1L);
+    ValidationResult<Long> resultSuccessCustomMessage = dv.isEqual(value, 1L, "custom");
 
-    ValidationResult<Float> resultFailure = dv.isEqual(value, 3.1F);
-    ValidationResult<Float> resultFailureCustomMessage = dv.isEqual(value, 3.1F, "custom");
+    ValidationResult<Long> resultFailure = dv.isEqual(value, 2L);
+    ValidationResult<Long> resultFailureCustomMessage = dv.isEqual(value, 2L, "custom");
 
     assertThat(resultSuccess.isValid()).isTrue();
     assertThat(resultSuccess.getValue()).isEqualTo(value);
@@ -33,14 +33,14 @@ class FloatValidatorsTest {
 
   @Test
   public void isGreaterThan() {
-    Float value = 1.2F;
+    Long value = 1L;
 
-    FloatValidators dv = new FloatValidators() {};
-    ValidationResult<Float> resultSuccess = dv.isGreaterThan(value, 1.1F);
-    ValidationResult<Float> resultSuccessCustomMessage = dv.isGreaterThan(value, 1.1F, "custom");
+    LongValidators dv = new LongValidators() {};
+    ValidationResult<Long> resultSuccess = dv.isGreaterThan(value, 0L);
+    ValidationResult<Long> resultSuccessCustomMessage = dv.isGreaterThan(value, 0L, "custom");
 
-    ValidationResult<Float> resultFailure = dv.isGreaterThan(value, 1.2F);
-    ValidationResult<Float> resultFailureCustomMessage = dv.isGreaterThan(value, 1.2F, "custom");
+    ValidationResult<Long> resultFailure = dv.isGreaterThan(value, 1L);
+    ValidationResult<Long> resultFailureCustomMessage = dv.isGreaterThan(value, 1L, "custom");
 
     assertThat(resultSuccess.isValid()).isTrue();
     assertThat(resultSuccess.getValue()).isEqualTo(value);
@@ -57,14 +57,14 @@ class FloatValidatorsTest {
 
   @Test
   public void isSmallerThan() {
-    Float value = 1.2F;
+    Long value = 1L;
 
-    FloatValidators dv = new FloatValidators() {};
-    ValidationResult<Float> resultSuccess = dv.isSmallerThan(value, 1.3F);
-    ValidationResult<Float> resultSuccessCustomMessage = dv.isSmallerThan(value, 1.3F, "custom");
+    LongValidators dv = new LongValidators() {};
+    ValidationResult<Long> resultSuccess = dv.isSmallerThan(value, 2L);
+    ValidationResult<Long> resultSuccessCustomMessage = dv.isSmallerThan(value, 2L, "custom");
 
-    ValidationResult<Float> resultFailure = dv.isSmallerThan(value, 1.2F);
-    ValidationResult<Float> resultFailureCustomMessage = dv.isSmallerThan(value, 1.2F, "custom");
+    ValidationResult<Long> resultFailure = dv.isSmallerThan(value, 1L);
+    ValidationResult<Long> resultFailureCustomMessage = dv.isSmallerThan(value, 1L, "custom");
 
     assertThat(resultSuccess.isValid()).isTrue();
     assertThat(resultSuccess.getValue()).isEqualTo(value);

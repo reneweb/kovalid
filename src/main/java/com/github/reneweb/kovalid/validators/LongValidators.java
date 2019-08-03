@@ -1,14 +1,14 @@
-package com.github.reneweb.covalid.validators;
+package com.github.reneweb.kovalid.validators;
 
-import com.github.reneweb.covalid.ValidationResult;
+import com.github.reneweb.kovalid.ValidationResult;
 
-public interface IntValidators {
+public interface LongValidators {
 
-  default ValidationResult<Integer> isEqual(Integer value, Integer toEqual) {
+  default ValidationResult<Long> isEqual(Long value, Long toEqual) {
     return isEqual(value, toEqual, "Value '" + value + "' is not equal " + toEqual);
   }
 
-  default ValidationResult<Integer> isEqual(Integer value, Integer toEqual, String invalidMessage) {
+  default ValidationResult<Long> isEqual(Long value, Long toEqual, String invalidMessage) {
     if (value.equals(toEqual)) {
       return ValidationResult.success(value);
     } else {
@@ -16,11 +16,12 @@ public interface IntValidators {
     }
   }
 
-  default ValidationResult<Integer> isGreaterThan(Integer value, Integer other) {
+  default ValidationResult<Long> isGreaterThan(Long value, Long other) {
     return isGreaterThan(value, other, "Value '" + value + "' is not greater than " + other);
   }
 
-  default ValidationResult<Integer> isGreaterThan(Integer value, Integer other, String invalidMessage) {
+  default ValidationResult<Long> isGreaterThan(Long value, Long other,
+                                                  String invalidMessage) {
     if (value > other) {
       return ValidationResult.success(value);
     } else {
@@ -28,11 +29,12 @@ public interface IntValidators {
     }
   }
 
-  default ValidationResult<Integer> isSmallerThan(Integer value, Integer other) {
+  default ValidationResult<Long> isSmallerThan(Long value, Long other) {
     return isSmallerThan(value, other, "Value '" + value + "' is not smaller than " + other);
   }
 
-  default ValidationResult<Integer> isSmallerThan(Integer value, Integer other, String invalidMessage) {
+  default ValidationResult<Long> isSmallerThan(Long value, Long other,
+                                                  String invalidMessage) {
     if (value < other) {
       return ValidationResult.success(value);
     } else {

@@ -1,11 +1,11 @@
-# Covalid
+# Kovalid
 A simple, zero-dependency validation library for Java.
 
 ## Usage
 
 ### Basic usage
 ```java
-class MyValidator implements Covalid<ToValidate, Integer> {
+class MyValidator implements Kovalid<ToValidate, Integer> {
   public ValidationResult<ToValidate> validate(ToValidate input) {
     return isNotNullOrEmpty(input.aString)
         .and(isGreaterThan(input.aInteger, 0))
@@ -26,7 +26,7 @@ In the last step the value of the result is mapped to the original input, which 
 
 ### Creating a custom result object
 ```java
-public class MyValidator implements Covalid<ToValidate, ToValidate> {
+public class MyValidator implements Kovalid<ToValidate, ToValidate> {
   public ValidationResult<ToValidate> validate(ToValidate input) {
     if (input.isComplexValidationTrue()) {
       return ValidationResult.success(input);
