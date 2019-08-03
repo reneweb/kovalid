@@ -8,7 +8,7 @@ A simple, zero-dependency validation library for Java.
 <dependency>
     <groupId>com.github.reneweb</groupId>
     <artifactId>kovalid</artifactId>
-    <version>0.1.3</version>
+    <version>0.1.4</version>
     <type>pom</type>
 </dependency>
 ```
