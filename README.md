@@ -6,10 +6,10 @@ A simple, zero-dependency validation library for Java.
 ### Maven dependency
 ```xml
 <dependency>
-	<groupId>com.github.reneweb</groupId>
-	<artifactId>kovalid</artifactId>
-	<version>0.1.2</version>
-	<type>pom</type>
+    <groupId>com.github.reneweb</groupId>
+    <artifactId>kovalid</artifactId>
+    <version>0.1.2</version>
+    <type>pom</type>
 </dependency>
 ```
 
