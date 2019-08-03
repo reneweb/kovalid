@@ -3,6 +3,16 @@ A simple, zero-dependency validation library for Java.
 
 ## Usage
 
+### Maven dependency
+```xml
+<dependency>
+	<groupId>com.github.reneweb</groupId>
+	<artifactId>kovalid</artifactId>
+	<version>0.1.1</version>
+	<type>pom</type>
+</dependency>
+```
+
 ### Basic usage
 ```java
 class MyValidator implements Kovalid<ToValidate, Integer> {
