@@ -17,11 +17,23 @@ public interface StringValidators {
   }
 
   default ValidationResult<String> hasLength(String value, int length) {
-    return hasLength(value, length, "Value '" + value + "'  is smaller than " + length);
+    return hasLength(value, length, "Value '" + value + "'  is not equal to " + length);
   }
 
   default ValidationResult<String> hasLength(String value, int length, String invalidMessage) {
     if (value.length() == length) {
+      return ValidationResult.success(value);
+    } else {
+      return ValidationResult.failed(value, invalidMessage);
+    }
+  }
+
+  default ValidationResult<String> hasAtLeastLength(String value, int length) {
+    return hasLength(value, length, "Value '" + value + "'  is smaller than " + length);
+  }
+
+  default ValidationResult<String> hasAtLeastLength(String value, int length, String invalidMessage) {
+    if (value.length() >= length) {
       return ValidationResult.success(value);
     } else {
       return ValidationResult.failed(value, invalidMessage);

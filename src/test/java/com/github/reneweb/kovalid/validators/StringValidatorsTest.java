@@ -56,6 +56,30 @@ class StringValidatorsTest {
   }
 
   @Test
+  public void hasAtLeastLength() {
+    String value = "value";
+
+    StringValidators sv = new StringValidators() {};
+    ValidationResult<String> resultSuccess = sv.hasAtLeastLength(value, 5);
+    ValidationResult<String> resultSuccessCustomMessage = sv.hasAtLeastLength(value, 5, "custom");
+
+    ValidationResult<String> resultFailure = sv.hasAtLeastLength(value, 7);
+    ValidationResult<String> resultFailureCustomMessage = sv.hasAtLeastLength(value, 7, "custom");
+
+    assertThat(resultSuccess.isValid()).isTrue();
+    assertThat(resultSuccess.getValue()).isEqualTo(value);
+    assertThat(resultSuccessCustomMessage.isValid()).isTrue();
+    assertThat(resultSuccessCustomMessage.getMessage()).isNull();
+    assertThat(resultSuccessCustomMessage.getValue()).isEqualTo(value);
+
+    assertThat(resultFailure.isValid()).isFalse();
+    assertThat(resultFailure.getValue()).isEqualTo(value);
+    assertThat(resultFailureCustomMessage.isValid()).isFalse();
+    assertThat(resultFailureCustomMessage.getMessage()).isEqualTo("custom");
+    assertThat(resultFailureCustomMessage.getValue()).isEqualTo(value);
+  }
+
+  @Test
   public void contains() {
     String value = "value";
 
